@@ -1,0 +1,89 @@
+<script lang="ts">
+	import '../app.css';
+	import { onMount } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
+	import { slide } from 'svelte/transition';
+
+	const isMenuOpen: Writable<boolean> = writable(false);
+
+	let innerWidth: number;
+
+	onMount(() => {
+		const unsubscribe = isMenuOpen.subscribe((value: boolean) => {
+			if (innerWidth > 768 && value) {
+				isMenuOpen.set(false);
+			}
+		});
+
+		return unsubscribe;
+	});
+
+	function toggleMenu(): void {
+		isMenuOpen.update((value: boolean) => !value);
+	}
+</script>
+
+<svelte:window bind:innerWidth />
+
+<style lang="postcss">
+  :global(::-webkit-scrollbar) {
+    width: 10px;
+  }
+
+  :global(::-webkit-scrollbar-track) {
+    background: transparent;
+  }
+
+  :global(::-webkit-scrollbar-thumb) {
+    background-color: #20bc54;
+    border-radius: 5px;
+  }
+
+ 
+
+  /* For Firefox */
+  :global(html) {
+    scrollbar-width: thin;
+    scrollbar-color: #20bc54 transparent;
+  }
+
+  :global(html:hover) {
+    scrollbar-color: #1ba97d transparent;
+  }
+</style>
+
+<div class="min-h-screen flex flex-col">
+  <nav class="bg-primary text-base-200 p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="/" class="btn btn-ghost hover:text-white text-xl">Home</a>
+      <button class="md:hidden btn btn-ghost" on:click={toggleMenu} aria-label="Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+      <div class="hidden md:flex space-x-4">
+        <a href="/projects" class="btn btn-ghost hover:text-white text-xl">Projects</a>
+        <a href="/about" class="btn btn-ghost hover:text-white text-xl">About</a>
+        <a href="/blog" class="btn btn-ghost hover:text-white text-xl">Blog</a>
+        <a href="/contact" class="btn btn-ghost hover:text-white text-xl">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  {#if $isMenuOpen && innerWidth <= 768}
+    <div transition:slide={{ duration: 300 }} class="bg-primary text-base-200">
+      <a href="/projects" class="block py-2 px-4 hover:bg-primary-focus">Projects</a>
+      <a href="/about" class="block py-2 px-4 hover:bg-primary-focus">About</a>
+      <a href="/blog" class="block py-2 px-4 hover:bg-primary-focus">Blog</a>
+      <a href="/contact" class="block py-2 px-4 hover:bg-primary-focus">Contact</a>
+    </div>
+  {/if}
+  
+  <main class="flex-grow container mx-auto p-4">
+    <slot />
+  </main>
+  
+  <footer class="bg-base-200 p-4 text-center">
+    <p>&copy; 2024 Brian Pistar. All rights reserved.</p>
+  </footer>
+</div>
