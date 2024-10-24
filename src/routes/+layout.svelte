@@ -5,17 +5,30 @@
 	import { slide } from 'svelte/transition';
 
 	const isMenuOpen: Writable<boolean> = writable(false);
+	const isNavVisible: Writable<boolean> = writable(false);
 
 	let innerWidth: number;
+	let lastScrollY = 0;
 
 	onMount(() => {
+		const handleScroll = () => {
+			const currentScrollY = window.scrollY;
+			isNavVisible.set(currentScrollY < lastScrollY);
+			lastScrollY = currentScrollY;
+		};
+
+		window.addEventListener('scroll', handleScroll, { passive: true });
+
 		const unsubscribe = isMenuOpen.subscribe((value: boolean) => {
 			if (innerWidth > 768 && value) {
 				isMenuOpen.set(false);
 			}
 		});
 
-		return unsubscribe;
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+			unsubscribe();
+		};
 	});
 
 	function toggleMenu(): void {
@@ -53,7 +66,8 @@
 </style>
 
 <div class="min-h-screen flex flex-col">
-  <nav class="bg-primary text-base-200 p-4">
+  <nav class="bg-primary text-base-200 p-4 fixed w-full z-50 transition-transform duration-300"
+       class:translate-y-0={$isNavVisible} class:-translate-y-full={!$isNavVisible}>
     <div class="container mx-auto flex justify-between items-center">
       <a href="/" class="btn btn-ghost hover:text-white text-xl">Home</a>
       <button class="md:hidden btn btn-ghost" on:click={toggleMenu} aria-label="Menu">
@@ -71,7 +85,7 @@
   </nav>
 
   {#if $isMenuOpen && innerWidth <= 768}
-    <div transition:slide={{ duration: 300 }} class="bg-primary text-base-200">
+    <div transition:slide={{ duration: 300 }} class="bg-primary text-base-200 mt-16">
       <a href="/projects" class="block py-2 px-4 hover:bg-primary-focus">Projects</a>
       <a href="/about" class="block py-2 px-4 hover:bg-primary-focus">About</a>
       <a href="/blog" class="block py-2 px-4 hover:bg-primary-focus">Blog</a>
@@ -79,7 +93,7 @@
     </div>
   {/if}
   
-  <main class="flex-grow container mx-auto p-4">
+  <main class="flex-grow container mx-auto p-4 mt-16">
     <slot />
   </main>
   
