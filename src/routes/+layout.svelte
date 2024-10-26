@@ -2,7 +2,7 @@
 	import '../app.css';
 	import { onMount } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
-	import { slide } from 'svelte/transition';
+	import { slide, fade } from 'svelte/transition';
 
 	const isMenuOpen: Writable<boolean> = writable(false);
 	const isNavVisible: Writable<boolean> = writable(false);
@@ -33,6 +33,10 @@
 
 	function toggleMenu(): void {
 		isMenuOpen.update((value: boolean) => !value);
+	}
+
+	function closeMenu(): void {
+		isMenuOpen.set(false);
 	}
 </script>
 
@@ -85,11 +89,18 @@
   </nav>
 
   {#if $isMenuOpen && innerWidth <= 768}
-    <div transition:slide={{ duration: 300 }} class="bg-primary text-base-200 mt-16">
-      <a href="/projects" class="block py-2 px-4 hover:bg-primary-focus">Projects</a>
-      <a href="/about" class="block py-2 px-4 hover:bg-primary-focus">About</a>
-      <a href="/blog" class="block py-2 px-4 hover:bg-primary-focus">Blog</a>
-      <a href="/contact" class="block py-2 px-4 hover:bg-primary-focus">Contact</a>
+    <div transition:fade={{ duration: 300 }} class="fixed inset-0 bg-primary text-base-200 z-50 overflow-y-auto">
+      <div class="flex justify-end p-4">
+        <button on:click={closeMenu} class="btn btn-ghost text-xl" aria-label="Close menu">
+          &times;
+        </button>
+      </div>
+      <div class="flex flex-col items-center space-y-4 mt-16">
+        <a href="/projects" class="btn btn-ghost hover:bg-primary-focus text-xl w-full" on:click={closeMenu}>Projects</a>
+        <a href="/about" class="btn btn-ghost hover:bg-primary-focus text-xl w-full" on:click={closeMenu}>About</a>
+        <a href="/blog" class="btn btn-ghost hover:bg-primary-focus text-xl w-full" on:click={closeMenu}>Blog</a>
+        <a href="/contact" class="btn btn-ghost hover:bg-primary-focus text-xl w-full" on:click={closeMenu}>Contact</a>
+      </div>
     </div>
   {/if}
   
