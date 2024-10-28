@@ -24,6 +24,13 @@
       badges: ["Phaser", "Svelte", "Game Jam"]
     },
     {
+      name: "MindFlow",
+      description: "Simple private note taking and habit tracker.",
+      link: "projects/mindflow",
+      image: "/images/projects/mindflow.png",
+      badges: ["Svelte", "Tauri", "Rust"]
+    },
+    {
       name: "CrypTick",
       description: "A crypto alert app built in rust, tauri and svelte.",
       link: "projects/cryptick",
