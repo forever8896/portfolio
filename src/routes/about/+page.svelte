@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { fade } from 'svelte/transition';
+
   let skills = [
     {
       name: 'JavaScript',
@@ -80,7 +82,7 @@
   }
 </style>
 
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-8" in:fade={{ duration: 300 }}>
   <h1 class="text-4xl font-bold mb-8 text-center">About Me</h1>
   
   <div class="card lg:card-side bg-base-100 shadow-xl mb-12">

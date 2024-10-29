@@ -1,9 +1,10 @@
 <script lang="ts">
   import { faCode, faLink, faUserShield } from '@fortawesome/free-solid-svg-icons';
   import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
+  import { fade } from 'svelte/transition';
 </script>
 
-<div class="container mx-auto">
+<div class="container mx-auto" in:fade={{ duration: 300 }}>
   <h1 class="text-4xl font-bold text-center mt-16 text-primary hover:underline hover:text-accent transition-all duration-300"> <a href="https://allstake.io" target="_blank">Allstake</a></h1>
   <p class="text-center text-lg">April 2024- Present</p>
   <div class="divider"></div>

@@ -1,9 +1,10 @@
 <script lang="ts">
     import { faCode, faLink, faUserShield } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
+    import { fade } from 'svelte/transition';
   </script>
   
-  <div class="container mx-auto">
+  <div class="container mx-auto" in:fade={{ duration: 300 }}>
     <h1 class="text-4xl font-bold text-center mt-16 text-primary hover:underline hover:text-accent transition-all duration-300"> <a href="https://brianpistar.itch.io/cellular-domination-station" target="_blank">Cellular Domination Station</a></h1>
     <p class="text-center text-lg">October 12th 2024- October 21st 2024</p>
     <div class="divider"></div>

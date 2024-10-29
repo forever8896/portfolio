@@ -105,7 +105,7 @@
   {/if}
   
   <main class="flex-grow container mx-auto p-4 mt-16">
-    <slot />
+    <slot  />
   </main>
   
   <footer class="bg-base-200 p-4 text-center">

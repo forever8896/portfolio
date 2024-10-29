@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition';
   interface BlogPost {
     slug: string;
     title: string;
@@ -26,7 +27,7 @@
   <title>Blog</title>
 </svelte:head>
 
-<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8" in:fade={{ duration: 300 }}>
   <h1 class="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 text-center">Blog Posts</h1>
   <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
     {#each posts as post}
