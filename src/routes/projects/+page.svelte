@@ -107,7 +107,7 @@
         style="transform: scale({$hoveredProject === project ? $scale : 1}) rotate({$hoveredProject === project ? $rotation : 0}deg);"
       >
         <figure>
-          <img src={project.image} alt={project.name} class="w-full h-48 object-cover" />
+          <img src={project.image} alt={project.name} class="w-full h-52 object-cover" />
         </figure>
         <div class="card-body bg-black">
           <h2 class="card-title text-primary">{project.name}</h2>
